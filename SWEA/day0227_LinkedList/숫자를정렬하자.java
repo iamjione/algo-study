@@ -1,7 +1,7 @@
 package day0227_LinkedList;
 
 import java.util.Scanner;
-
+//삽입정렬
 public class 숫자를정렬하자 {
 
 	public static void main(String[] args) {

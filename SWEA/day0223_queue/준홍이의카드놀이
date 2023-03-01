@@ -1,0 +1,45 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+ 
+public class Solution {
+ 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        for(int tc=1; tc<=T; tc++) {
+            int N = sc.nextInt();
+            int M = sc.nextInt();
+ 
+            //cnt 배열에 카드 합 카운팅해줌
+            int[] cnt = new int[N+M+1];
+            for(int i=1; i<=N; i++){
+                for(int j=1; j<=M; j++) {
+                    cnt[i+j]++;
+                }
+            }
+             
+            int maxIdx = 0;//등장할 확률이 가장 높은 숫자
+            Queue<Integer> q = new LinkedList<>();//정답 입력할 큐
+            //cnt배열 1~N+M까지 돌면서 기존의 maxIdx보다 등장 횟수가 더 많으면
+            //그때의 i를 maxIdx로! 그리고 그 값 큐에 추가해줌
+            //방금 추가한 수보다 등장 횟수 낮은 애들 큐에서 빼줌
+            for(int i=1; i<N+M+1; i++) {
+                if(cnt[i]>=cnt[maxIdx]) {
+                    maxIdx = i;
+                    q.add(maxIdx);
+                    for(int j=0; j<q.size()-1; j++) {
+                        if(cnt[q.peek()]<cnt[i]) q.poll();
+                    }
+                }
+            }
+             
+            StringBuilder sb = new StringBuilder();
+            sb.append("#").append(tc).append(" ");
+            while(!q.isEmpty()) {
+                sb.append(q.poll()).append(" ");
+            }
+            System.out.println(sb);
+        }
+    }
+}

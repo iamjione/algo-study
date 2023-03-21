@@ -43,19 +43,19 @@ public class Main {
 	}
 
 	//중위순회한 결과를 다시 트리로 만들기
-	private static void LVRtoTree(int depth,int start,int end) {
+	private static void LVRtoTree(int level,int start,int end) {
 		
-		if(depth == K) return;//깊이를 끝까지 다 탐색했으면 return
+		if(level == K) return;//깊이를 끝까지 다 탐색했으면 return
 		
 		//start부터 end까지의 범위의 중앙값을 tree[level]에 저장
 		int mid = (end+start)/2;
-		tree[depth].add(arr[mid]);
+		tree[level].add(arr[mid]);
 		
 		//중앙값 기준 왼쪽 범위에 대해 재귀함수 호출
-		LVRtoTree(depth+1, start, mid-1);
+		LVRtoTree(level+1, start, mid-1);
 
 		//중앙값 기준 오른쪽 범위에 대해 재귀함수 호출
-		LVRtoTree(depth+1, mid+1, end);
+		LVRtoTree(level+1, mid+1, end);
 			
 		
 	}

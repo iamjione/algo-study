@@ -44,8 +44,6 @@ public class Main {
 
 	//중위순회한 결과를 다시 트리로 만들기
 	private static void LVRtoTree(int depth,int start,int end) {
-
-		if(start>end) return;//범위의 시작값이 끝값보다 커지면 return
 		
 		if(depth == K) return;//깊이를 끝까지 다 탐색했으면 return
 		

@@ -31,17 +31,18 @@ public class Main {
 	}
 
 	private static void mergeSort(int L, int R) {
+		if(cnt==K) return;
+		
 		if(L>=R) return;
 		
 		int mid = (L+R)/2;
 		mergeSort(L,mid);//왼쪽 분할
 		mergeSort(mid+1, R);//오른쪽 분할
-		if(cnt==K) return;
 		merge(L,mid,R);//정렬하면서 병합
 		
 	}
 
-	private static void merge(int L, int mid, int R) {
+	private static int merge(int L, int mid, int R) {
 		int left = L;//왼쪽 구역 시작 인덱스
 		int right = mid+1;//오른쪽 구역 시작 인덱스
 		
@@ -64,11 +65,10 @@ public class Main {
 		for(int i=L; i<=R; i++) {
 			A[i] = tmp[i];
 			cnt++;
-			if(cnt==K) {
-				ans = A[i];//저장횟수가 K면 그 때 저장한 값 반환
-				return;
-			}
+			if(cnt==K) return ans = A[i];//저장횟수가 K면 그 때 저장한 값 반환
 		}
+		
+		return ans;
 	}
 
 }

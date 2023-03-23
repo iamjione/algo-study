@@ -1,4 +1,4 @@
-package 백트레킹;
+package 백트래킹;
 
 import java.util.Scanner;
 

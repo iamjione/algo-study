@@ -1,4 +1,4 @@
-package 백래래킹;
+package 트트래킹;
 
 import java.util.Scanner;
 

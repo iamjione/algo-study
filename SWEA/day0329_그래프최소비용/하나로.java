@@ -16,10 +16,15 @@ public class 하나로 {
 		for(int tc=1; tc<=T; tc++) {
 			
 			int N =sc.nextInt();//섬의 개수
-			arr = new int[N][2];//위치
+			
+			arr = new int[N][2];//섬 좌표 저장할 배열
+			
 			for(int i=0; i<N; i++) {
 				arr[i][0] = sc.nextInt();//i섬의 x좌표
-				arr[i][1] = sc.nextInt();//i섬의 y좌표
+			}
+			
+			for(int i=0; i<N; i++) {
+				arr[i][1] = sc.nextInt();//i섬의 y좌표				
 			}
 			
 			E = sc.nextDouble();//환경 부담 세율
@@ -36,8 +41,7 @@ public class 하나로 {
 					idx++;
 				}
 			}
-			
-			
+		
 			//크루스칼 1단계 : 간선 오름차순 정렬
 			Arrays.sort(edges, new Comparator<double[]>() {
 				@Override
@@ -87,6 +91,7 @@ public class 하나로 {
         return p[x];
 	}
 
+	//i섬과 j섬의 연결 비용
 	private static double cost(int i, int j) {	
 		return (Math.pow(arr[i][0]-arr[j][0],2)+Math.pow(arr[i][1]-arr[j][1],2))*E;
 	}

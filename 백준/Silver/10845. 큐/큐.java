@@ -1,57 +1,64 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-
-		Queue<Integer> queue = new LinkedList<>();
-		StringBuilder sb = new StringBuilder();
-
-		int N = sc.nextInt();
-
-		int back = 0;//back연산 수행시 사용할 큐의 가장 마지막 값
+	public static void main(String[] args) throws IOException {
 		
-		for (int i = 0; i < N; i++) {
-			String order = sc.next();
-			switch (order) {
-			case "push":
-				int x = sc.nextInt();
-				queue.offer(x);
-				back = x;//새로운 값 넣을 때마다 그 값을 큐의 가장 마지막값으로 설정해줌!
-				break;
-			case "pop":
-				if (!queue.isEmpty())
-					sb.append(queue.poll()).append('\n');
-				else
-					sb.append(-1).append('\n');
-				break;
-			case "size":
-				sb.append(queue.size()).append('\n');
-				break;
-			case "empty":
-				if (queue.isEmpty())
-					sb.append(1).append('\n');
-				else
-					sb.append(0).append('\n');
-				break;
-			case "front":
-				if (!queue.isEmpty())
-					sb.append(queue.peek()).append('\n');
-				else
-					sb.append(-1).append('\n');
-				break;
-			case "back":
-				if (!queue.isEmpty())
-					sb.append(back).append('\n');
-				else
-					sb.append(-1).append('\n');
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
+		
+		st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+
+		Queue<Integer> q = new LinkedList<>();
+		int n = 0;
+		for(int i = 0; i<N; i++) {
+			st = new StringTokenizer(br.readLine());
+			String x = st.nextToken();
+			if(x.equals("push")) {
+				n = Integer.parseInt(st.nextToken());
+				q.add(n);
+			} else if (x.equals("empty")) {
+				if (!q.isEmpty()) {
+					sb.append(0).append("\n");
+				} else {
+					sb.append(1).append("\n");
+				}
+			} else if (!q.isEmpty()) {
+				if(x.equals("size")) {
+					sb.append(q.size()).append("\n");
+				} else if(x.equals("pop")) {
+					sb.append(q.poll()).append("\n");
+				} else if(x.equals("front")) {
+					sb.append(q.peek()).append("\n");
+				} else if(x.equals("back")) {
+					sb.append(n).append("\n");
+				}
+				
+			} else if(q.isEmpty()) {
+				if(x.equals("size")) {
+					sb.append(q.size()).append("\n");
+				} else if(x.equals("pop")) {
+					sb.append(-1).append("\n");
+				} else if(x.equals("front")) {
+					sb.append(-1).append("\n");
+				} else if(x.equals("back")) {
+					sb.append(-1).append("\n");
+				} else {
+					sb.append(-1).append("\n");
+				}
 			}
+	
 		}
+		
 		System.out.println(sb);
 
-	}
+	}//main
 
-}
+}//class

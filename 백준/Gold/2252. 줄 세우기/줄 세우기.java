@@ -15,7 +15,7 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());//학생 수
 		int M = Integer.parseInt(st.nextToken());//키 비교 횟수
 		
-        //인접리스트
+        	//인접리스트
 		ArrayList<Integer>[] adjList = new ArrayList[N+1];
 		for(int i=1; i<N+1; i++) adjList[i] = new ArrayList<>();
 		//진입차수 배열
@@ -30,8 +30,8 @@ public class Main {
 			inDegree[u]++;
 		}
 		
+		//진입차수 0인 정점 큐에 넣어줌
 		Queue<Integer> q = new ArrayDeque<>();
-		
 		for(int i=1; i<N+1; i++) {
 			if(inDegree[i]==0) q.add(i);
 		}

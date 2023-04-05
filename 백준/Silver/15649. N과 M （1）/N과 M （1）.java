@@ -2,49 +2,43 @@ import java.util.Scanner;
 
 public class Main {
 
-	static int N;
-	static int M;
-	static int[] nums;
+	static int N,M;
+	static boolean[] visited;
 	static int[] result;
-	static boolean[] selected;
-
+	static StringBuilder sb;
+	
 	public static void main(String[] args) {
-
 		Scanner sc = new Scanner(System.in);
-
-		N = sc.nextInt();
-		M = sc.nextInt();
-		nums = new int[N];
-		selected = new boolean[N];
-		int num = 1;
-		for (int i = 0; i < N; i++) {
-			nums[i] = num++;
-		}
-		result = new int[M]; // 순열 결과를 넣을 배열
-
+		N = sc.nextInt();//자연수 1부터 N까지
+		M = sc.nextInt();//중복 없이 M개 고르기
+		
+		visited = new boolean[N+1];
+		result = new int[M];
+		sb = new StringBuilder();
 		perm(0);
-
-	} // main
-
-	static void perm(int idx) {
-
-		// M개의 선택을 마친 경우 그만.
-		if (idx == M) {
-			for (int i = 0; i < M; i++) {
-				System.out.print(result[i] + " ");
-			} // for
-			System.out.println();
-			return;
-		} // if
-
-		for (int i = 0; i < N; i++) {
-			if (selected[i])
-				continue;
-			result[idx] = nums[i];
-			selected[i] = true; 
-			perm(idx + 1); 
-			selected[i] = false; 
-		}
-
+		System.out.println(sb);
 	}
-}// class
+
+	private static void perm(int idx) {
+		//M개 다 골랐으면 스트링 빌더에 답 저장하고 재귀 종료
+		if(idx==M) {
+			for(int x:result) sb.append(x+" ");
+			
+			sb.append('\n');
+			return;
+		}
+		
+		for(int i=1; i<N+1; i++) {
+			//사용한 숫자면 컨티뉴
+			if(visited[i]) continue;
+			
+			//사용하지 않은 숫자면 사용하기
+			result[idx] = i;//결과 배열에 넣어주고
+			visited[i] = true;//방문 체크
+			perm(idx+1);//다음 숫자 선택하러 고고
+			visited[i] = false;//방문 체크 원상복구
+		}
+		
+	}
+
+}

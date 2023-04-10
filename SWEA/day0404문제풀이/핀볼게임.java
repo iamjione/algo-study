@@ -1,161 +1,141 @@
-package day0404¹®Á¦Ç®ÀÌ;
-
+import java.util.ArrayList;
 import java.util.Scanner;
-
-public class ÇÉº¼°ÔÀÓ {
-
-	static int N, max, score;
-	static int[][] arr;
-	//»óÇÏÁÂ¿ì µ¨Å¸°ª
-	static int[] dr = {-1,1,0,0};
-	static int[] dc = {0,0,-1,1};
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int T = sc.nextInt();
-		for(int tc=1; tc<=T; tc++) {
-			N = sc.nextInt();//°ÔÀÓÆÇ Å©±â
-			arr = new int[N+2][N+2];
-			
-			//º® 11·Î ÀúÀå
-			for(int i=0; i<N+2; i++) {
-				arr[0][i] = arr[N+1][i] = 11;
-				arr[i][0] = arr[i][N+1] = 11;
-			}
-			
-			//°ÔÀÓÆÇ Á¤º¸ ÀÔ·Â¹Þ¾Æ¼­ ¹è¿­¿¡ ÀúÀå
-			for(int i=1; i<N+1; i++) {
-				for(int j=1; j<N+1; j++) {
-					arr[i][j] = sc.nextInt();
-				}
-			}
-
-			max = 0;//Á¡¼öÀÇ ÃÖ´ë°ª ÃÊ±âÈ­
-			
-			//2Â÷¿ø ¹è¿­À» ¼øÈ¸ÇÏ¸é¼­ °ÔÀÓ ½ÃÀÛÀÌ °¡´ÉÇÑ ¸ðµç Ä­¿¡¼­ °ÔÀÓ ½ÃÀÛÇØº¸±â
-			for(int i=1; i<N+1; i++) {
-				for(int j=1; j<N+1; j++) {
-					if(arr[i][j]==0) {//ºóÄ­ÀÌ¸é °ÔÀÓ ½ÃÀÛ °¡´É
-						for(int k=0; k<4; k++) {//½ÃÀÛ ¹æÇâ
-							score = 0;
-							int row = i;
-							int col = j;
-							int d = k;
-							while(true) {
-								int nr = row+dr[d];
-								int nc = col+dc[d];
-								int idx = 1;
-								while(arr[nr][nc]==0) {
-									nr = row+dr[d]*idx;
-									nc = col+dc[d]*idx;
-									idx++;
-								}
-								
-								//ºí·¢È¦ ¸¸³µ°Å³ª Ãâ¹ßÁ¡À¸·Î µ¹¾Æ¿ÔÀ¸¸é Á¡¼öÀÇ ÃÖ´ë°ª °»½ÅÇØÁÖ°í °ÔÀÓ Á¾·á
-								if(arr[nr][nc]==-1 || (nr==i&&nc==j)) {
-									if(max<score) max = score;
-									break;
-									
-								//5¹ø ºí·ÏÀÌ³ª º® ¸¸³µÀ¸¸é ÃÖÁ¾ Á¡¼ö °è»ê ÈÄ ÃÖ´ë°ª °»½ÅÇØÁÖ°í °ÔÀÓ Á¾·á
-								}else if(arr[nr][nc]==5 || arr[nr][nc]==11) {
-									score = score*2+1;
-									if(max<score) max = score;
-									break;
-									
-								//1¹ø~4¹ø ºí·Ï ¸¸³­ °æ¿ì
-								}else if(1<=arr[nr][nc] && arr[nr][nc]<=4) {
-									switch(d) {
-									case 0://À§·Î ÀÌµ¿ Áß
-										if(arr[nr][nc]==1 || arr[nr][nc] == 4) {
-											//1¹ø, 4¹ø ºí·Ï ¸¸³µÀ¸¸é °ÔÀÓ Á¾·á
-											score = score*2+1;
-											if(max<score) max = score;
-											break;
-										}else {
-											//1Á¡ È¹µæ && ÀÌµ¿ ¹æÇâ ¹Ù²Ù±â
-											score++;
-											row = nr;
-											col = nc;
-											if(arr[nr][nc]==2) d=3; 
-											else if(arr[nr][nc]==3) d=2;
-										}
-										break;
-									case 1://¾Æ·¡·Î ÀÌµ¿ Áß
-										if(arr[nr][nc]==2 || arr[nr][nc] == 3) {
-											//2¹ø, 3¹ø ºí·Ï ¸¸³µÀ¸¸é °ÔÀÓ Á¾·á
-											score = score*2+1;
-											if(max<score) max = score;
-											break;
-										}else {
-											//1Á¡ È¹µæ && ÀÌµ¿ ¹æÇâ ¹Ù²Ù±â
-											score++;
-											row = nr;
-											col = nc;
-											if(arr[nr][nc]==1) d=3;
-											else if(arr[nr][nc]==4) d=2;
-										}
-										break;
-									case 2://¿ÞÂÊÀ¸·Î ÀÌµ¿ Áß
-										if(arr[nr][nc]==3 || arr[nr][nc]==4) {
-											//3¹ø,4¹ø ºí·Ï ¸¸³µÀ¸¸é °ÔÀÓ Á¾·á
-											score = score*2+1;
-											if(max<score) max = score;
-											break;
-										}else {
-											//1Á¡ È¹µæ && ÀÌµ¿ ¹æÇâ ¹Ù²Ù±â
-											score++;
-											row = nr;
-											col = nc;
-											if(arr[nr][nc]==1) d=0;
-											else if(arr[nr][nc]==2) d=1;
-										}
-										break;
-									default://¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ Áß
-										if(arr[nr][nc]==1 || arr[nr][nc]==2) {
-											//1¹ø ºí·Ï ¸¸³µÀ¸¸é °ÔÀÓ Á¾·á
-											score = score*2+1;
-											if(max<score) max = score;
-											break;
-										}else {
-											//1Á¡ È¹µæ && ÀÌµ¿ ¹æÇâ ¹Ù²Ù±â
-											score++;
-											row = nr;
-											col = nc;
-											if(arr[nr][nc]==3) d=1;
-											else if(arr[nr][nc]==4) d=0;
-										}
-										break;
-									}
-								}else{
-									//¿úÈ¦ÀÌ¸é ¹Ý´ëÂÊ ¿úÈ¦·Î ³ª¿À±â
-									for(int r=1; r<N+1; r++) {
-										for(int c=1; c<N+1; c++) {
-											if(r!=nr || c!=nc && arr[nr][nc]==arr[r][c]) {
-												//nr,nc ¿¡¼­ r,c·Î ÀÌµ¿
-												row = r;
-												col = c;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			System.out.println("#"+tc+" "+max);
-		}//tc
-
-	}
-
-
-//	private static void gameStop(int score) {
-//		//ºí·ÏÀÌ³ª º®À» ¸¸³ª¼­ ÀÌµ¿ ¹æÇâÀÌ ¿ÏÀü ¹Ý´ë·Î ¹Ù²î¸é ¿Ô´ø ±æ µÇµ¹¾Æ°¡±â¶§¹®¿¡
-//		//Áö±Ý±îÁö Á¡¼ö¿¡ 2¹è +1 Á¡ÀÌ ÃÖÁ¾ Á¡¼ö!
-//		score = score*2+1;
-//		if(max<score) max = score;
-//	}
-	
-	
-
+ 
+public class Solution {
+     
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);        
+        int T = sc.nextInt();
+        for(int tc=1; tc<=T; tc++) {
+            int N = sc.nextInt();//ê²Œìž„íŒ í¬ê¸°
+             
+            int[][] arr = new int[N+2][N+2];//ê²Œìž„íŒ ë°°ì—´
+            ArrayList<Wormhole> list = new ArrayList<>();//ì›œí™€ ì •ë³´ ì €ìž¥í•  ë¦¬ìŠ¤íŠ¸
+             
+            for(int i=1; i<N+1; i++) {
+                for(int j=1; j<N+1; j++) {
+                    //ê²Œìž„íŒ ì •ë³´ ìž…ë ¥ë°›ì•„ì„œ ë°°ì—´ì— ì €ìž¥
+                    arr[i][j] = sc.nextInt();
+                    //ì›œí™€ì´ë©´ ì›œí™€ ì •ë³´ ë¦¬ìŠ¤íŠ¸ì— ì €ìž¥
+                    if(6<=arr[i][j] && arr[i][j]<=10) {
+                        list.add(new Wormhole(i,j,arr[i][j]));
+                    }
+                }
+            }
+             
+            //ë²½ì¸ ë¶€ë¶„ 5ë¡œ ì €ìž¥
+            for(int i=0; i<N+2; i++) {
+                arr[0][i] = arr[N+1][i] = arr[i][0] = arr[i][N+1] = 5;
+            }
+             
+            //ìƒí•˜ì¢Œìš° ë¸íƒ€ê°’
+            int[] dr = {-1,1,0,0};
+            int[] dc = {0,0,-1,1};
+             
+            int ans = 0;//ë‹µìœ¼ë¡œ ì¶œë ¥í•  ìµœëŒ€ ì ìˆ˜
+             
+            //2ì°¨ì› ë°°ì—´ ìˆœíšŒ
+            int score, nr, nc, dir;
+            for(int i=1; i<N+1; i++) {
+                for(int j=1; j<N+1; j++) {
+                    if(arr[i][j]==0) {//ë¹ˆê³µê°„ì´ë¼ë©´ ê²Œìž„ ì‹œìž‘
+                        for(int k=0; k<4; k++) {//ì‹œìž‘ ë°©í–¥ ìƒí•˜ì¢Œìš°
+                            score = 0;
+                            dir = k;//í˜„ìž¬ ì´ë™ ë°©í–¥
+                            nr = i+dr[k];//í–‰
+                            nc = j+dc[k];//ì—´
+                            boolean end = false;//ê²Œìž„ ì¢…ë£Œ ì—¬ë¶€
+                             
+                            while(true) {
+                                //ë¸”ëž™í™€,ë¸”ë¡,ì›œí™€,ë²½ ë§Œë‚  ë•Œê¹Œì§€ ì´ë™
+                                while(arr[nr][nc]==0) {
+                                    //ì‹œìž‘ì ìœ¼ë¡œ ëŒì•„ì˜¤ë©´ ëë‚´ê¸°
+                                    if(nr==i && nc==j) {
+                                        end = true;
+                                        break;
+                                    }
+                                    //ë¹ˆê³µê°„ì´ë©´ ë‹¤ìŒì¹¸ìœ¼ë¡œ ì´ë™
+                                    nr += dr[dir];
+                                    nc += dc[dir];
+                                }
+                                 
+                                //(nr,nc)ê°€ ë¸”ëž™í™€ì´ê±°ë‚˜ ì‹œìž‘ì ì¸ ê²½ìš°
+                                if(arr[nr][nc]==-1||end) {
+                                    break;
+                                }
+                                //(nr,nc)ê°€ 5ì¸ ê²½ìš°
+                                else if(arr[nr][nc]==5) {
+                                    score = score*2+1;
+                                    break;
+                                }
+                                //(nr,nc)ê°€ 1~4ë²ˆ ë¸”ë¡ì¸ ê²½ìš°
+                                else if(1<=arr[nr][nc] && arr[nr][nc]<=4) {
+                                    int block = arr[nr][nc];//ë¸”ë¡ ë²ˆí˜¸
+                                     
+                                    if(dir==0) {//ìœ„ë¡œ ì´ë™ ì¤‘
+                                        if(block==2) dir=3;
+                                        else if(block==3) dir=2;
+                                        else {
+                                            score = score*2+1;
+                                            break;
+                                        }
+                                    }else if(dir==1) {//ì•„ëž˜ë¡œ ì´ë™ ì¤‘
+                                        if(block==1) dir=3;
+                                        else if(block==4) dir=2;
+                                        else {
+                                            score = score*2+1;
+                                            break;
+                                        }
+                                    }else if(dir==2) {//ì™¼ìª½ìœ¼ë¡œ ì´ë™ ì¤‘
+                                        if(block==1) dir=0;
+                                        else if(block==2) dir=1;
+                                        else {
+                                            score = score*2+1;
+                                            break;
+                                        }
+                                    }else {//ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™ ì¤‘
+                                        if(block==3) dir=1;
+                                        else if(block==4) dir=0;
+                                        else {
+                                            score = score*2+1;
+                                            break;
+                                        }
+                                    }
+                                    //ë¸”ë¡ë§Œë‚˜ì„œ 90ë„ë§Œí¼ ë°©í–¥ ë°”ë€ ê²½ìš°
+                                    //ì ìˆ˜ ì˜¬ë ¤ì£¼ê³  ë°©í–¥ë°”ê¿”ì„œ ì´ë™
+                                    score++;
+                                    nr += dr[dir];
+                                    nc += dc[dir];
+                                }
+                                //(nr,nc)ê°€ ì›œí™€ì¸ ê²½ìš°
+                                else {
+                                    for(Wormhole w:list) {
+                                        if(w.n==arr[nr][nc]&&(w.r!=nr || w.c!=nc)) {
+                                            nr = w.r+dr[dir];
+                                            nc = w.c+dc[dir];
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            //ìµœê³ ì  ê°±ì‹ 
+                            if(score>ans) ans = score;                           
+                        }
+                    }
+                }
+            }   
+            System.out.println("#"+tc+" "+ans);
+        }//tc
+    }
+     
+    static class Wormhole{
+        int r, c, n;//í–‰,ì—´,ì›œí™€ë²ˆí˜¸
+ 
+        public Wormhole(int r, int c, int n) {
+            this.r = r;
+            this.c = c;
+            this.n = n;
+        }
+    }
+ 
 }

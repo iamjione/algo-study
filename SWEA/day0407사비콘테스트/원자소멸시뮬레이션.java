@@ -1,7 +1,7 @@
 import java.util.Scanner;
 /*
 *
-*시간 날 때 다시 풀
+*시간 날 때 다시 풀어보기
 *
 */
 public class Solution {

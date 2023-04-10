@@ -1,134 +1,117 @@
-package day0407»çºñÄÜÅ×½ºÆ®;
-
-import java.util.ArrayList;
 import java.util.Scanner;
-
-public class ¿øÀÚ¼Ò¸ê½Ã¹Ä·¹ÀÌ¼Ç {
-
-	//°ñµå
-	static int N, sum;
-	static int[] arr;
-	static ArrayList<Atom> list;
-	static boolean[] check;
-	
-	static class Atom{
-		//xÁÂÇ¥, yÁÂÇ¥, ¹æÇâ, º¸À¯¿¡³ÊÁö
-		int id,x,y,d,k;
-
-		public Atom(int id,int x, int y, int d, int k) {
-			this.id=id;
-			this.x = x;
-			this.y = y;
-			this.d = d;
-			this.k = k;
-		}
-	}
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int T = sc.nextInt();
-		for(int tc=1; tc<=T; tc++) {
-			N = sc.nextInt();//¿øÀÚ ¼ö
-			
-			//¿øÀÚ Á¤º¸ ¸®½ºÆ®¿¡ ÀúÀå
-			int id = 0;
-			list = new ArrayList<>();
-			for(int i=0; i<N; i++) {
-				list.add(new Atom(id++,sc.nextInt(),sc.nextInt(),sc.nextInt(),sc.nextInt()));
-			}
-
-			sum = 0;//¹æÃâ ¿¡³ÊÁö ÃÑ ÇÕ
-			check = new boolean[N];
-			simulation();
-			
-			System.out.println("#"+tc+" "+sum);
-		}//tc
-
-	}
-
-	private static void simulation() {
-		//ÀÌµ¿ ¹æÇâÀÇ ¹İ´ë¹æÇâ Á¦¿ÜÇÑ 3¹æ Å½»öÇØ¼­ ¸¸³¯ ¼ö ÀÖ´Â ¿øÀÚ Ã£±â
-		for(Atom a:list) {
-			if(check[a.id]) continue;//¼Ò¸êÇÑ ¿ø¼Ò¸é °Ç³Ê¶Ù±â
-			
-			int x = a.x;
-			int y = a.y;
-			int d = a.d;
-			
-			int[] arr = new int[3];//0:°¡Àå »¡¸® ¸¸³ª´Â ½Ã°£, 1:±×¶§ ¸¸³ª´Â ¿øÀÚ ¹øÈ£, 2:¿øÀÚÀÇ º¸À¯ ¿¡³ÊÁö
-			arr[0] = 2222;
-			
-			for(Atom b:list) {
-				//³ª ÀÚ½ÅÀÌ¸é °Ç³Ê¶Ù±â
-				if(a.id==b.id) continue;
-				
-				//1.°°Àº xÁÂÇ¥¿¡¼­ ¸¶ÁÖº¸¸ç ¿À°Å³ª °°Àº yÁÂÇ¥¿¡¼­ ¸¶ÁÖº¸¸ç ¿À´Â ¿øÀÚ ÀÖ´Â °æ¿ì
-				if(d==2 && x>b.x && y==b.y && b.d==3) {
-					if(arr[0]>(b.y-y)/2) {
-						arr[0] = (x-b.x)/2;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}else if(d==3 && x<b.x && y==b.y && b.d==2) {
-					if(arr[0]>(b.y-y)/2) {
-						arr[0] = (b.x-x)/2;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}else if(d==0 && x==b.x && y<b.y && b.d==1) {
-					if(arr[0]>(b.y-y)/2) {
-						arr[0] = (b.y-y)/2;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}else if(d==1 && x==b.x && y>b.y && b.d==0) {
-					if(arr[0]>(b.y-y)/2) {
-						arr[0] = (y-b.y)/2;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-					
-				//2. xÁÂÇ¥ÀÇ Â÷ == yÁÂÇ¥ÀÇ Â÷ ÀÌ¸é¼­ 90µµ ¹æÇâÀ¸·Î ¿À´Â ¿øÀÚ°¡ ÀÖ´Â °æ¿ì
-				}else if(x-b.x==y-b.y && ((d==2 && b.d==0)||(d==1 && b.d==3))) {
-					//ÁÂÇÏ¿¡ ÀÖ´Â ¿øÀÚ¶û ¸¸³ª´Â °æ¿ì
-					if(arr[0]>x-b.x) {
-						arr[0] = x-b.x;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}else if(x-b.x==b.y-y &&((d==0&&b.d==3)||(d==2&&b.d==1))) {
-					//ÁÂ»ó¿¡ ÀÖ´Â ¿øÀÚ¶û ¸¸³ª´Â °æ¿ì
-					if(arr[0]>x-b.x) {
-						arr[0] = x-b.x;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}else if(b.x-x==y-b.y &&((d==1&&b.d==2)||(d==3&&b.d==0))) {
-					//¿ìÇÏ¿¡ ÀÖ´Â ¿øÀÚ¶û ¸¸³ª´Â °æ¿ì
-					if(arr[0]>x-b.x) {
-						arr[0] = b.x-x;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}else if(b.x-x==b.y-y &&((d==3&&b.d==1)||(d==0&&b.d==2))) {
-					//¿ì»ó¿¡ ÀÖ´Â ¿øÀÚ¶û ¸¸³ª´Â °æ¿ì
-					if(arr[0]>x-b.x) {
-						arr[0] = b.x-x;
-						arr[1] = b.id;
-						arr[2] = b.k;
-					}
-				}
-			}
-			//arr[0]ÀÌ 2222º¸´Ù ÀÛÀ¸¸é ¸¸³ª´Â ¿øÀÚ ÀÖ´Â °Í >> ¸¸³ª´Â ¿øÀÚ Á¦°ÅÇÏ°í ¿¡³ÊÁö ´õÇØÁÜ	
-			if(arr[0]<2222) {
-				sum += (a.k+arr[2]);
-				//for¹® µ¹¸é¼­ id°¡ arr[1]ÀÎ ¿øÀÚ ¼Ò¸ê Ã¼Å©
-				check[arr[1]] = true;
-			}
-			//for¹® µ¹¸é¼­ id°¡ a.idÀÎ ¿øÀÚ ¼Ò¸ê Ã¼Å©
-			check[a.id] = true;
-		}
-		
-	}
-
+/*
+*
+*ì‹œê°„ ë‚  ë•Œ ë‹¤ì‹œ í’€
+*
+*/
+public class Solution {
+ 
+    static int N, sum;
+    static Atom[]  arr;
+    static boolean[] extinction;
+     
+    static class Atom{
+        //xì¢Œí‘œ, yì¢Œí‘œ, ë°©í–¥, ë³´ìœ ì—ë„ˆì§€
+        int x,y,d,k;
+ 
+        public Atom(int x, int y, int d, int k) {
+            this.x = x;
+            this.y = y;
+            this.d = d;
+            this.k = k;
+        }
+    }
+     
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        for(int tc=1; tc<=T; tc++) {
+            N = sc.nextInt();//ì›ì ìˆ˜
+            
+            //ì›ì ì •ë³´ ë°°ì—´ì— ì €ì¥
+            arr = new Atom[N];
+            for(int i=0; i<N; i++) {
+                arr[i]=new Atom(sc.nextInt(),sc.nextInt(),sc.nextInt(),sc.nextInt());
+            }
+ 
+            sum = 0;//ë°©ì¶œ ì—ë„ˆì§€ ì´ í•©
+            extinction = new boolean[N];//ì†Œë©¸ ì²´í¬
+            simulation();
+             
+            System.out.println(&quot;#&quot;+tc+&quot; &quot;+sum);
+        }//tc
+ 
+    }
+ 
+    private static void simulation() {
+        //ì´ë™ ë°©í–¥ì˜ ë°˜ëŒ€ë°©í–¥ ì œì™¸í•œ 3ë°© íƒìƒ‰í•´ì„œ ë§Œë‚  ìˆ˜ ìˆëŠ” ì›ì ì°¾ê¸°
+        for(int i=0; i<N; i++) {
+            int x = arr[i].x;
+            int y = arr[i].y;
+            int d = arr[i].d;
+            
+            double time = 2001;//ë§Œë‚˜ëŠ”ë° ê±¸ë¦¬ëŠ” ì‹œê°„ (ìµœëŒ€ 2000ì´ˆ ê±¸ë¦´ ìˆ˜ ìˆìœ¼ë‹ˆê¹Œ 2001ë¡œ ì´ˆê¸°í™”)
+            int num = 0;//ì†Œë©¸í•˜ëŠ” ì›ì ë²ˆí˜¸
+ 
+            for(int j=i; j<N; j++) {
+            	if(extinction[j]) continue;//ì†Œë©¸í•œ ì›ìë©´ ì»¨í‹°ë‰´
+            	
+                //1.ê°™ì€ xì¢Œí‘œì—ì„œ ë§ˆì£¼ë³´ë©° ì˜¤ê±°ë‚˜ ê°™ì€ yì¢Œí‘œì—ì„œ ë§ˆì£¼ë³´ë©° ì˜¤ëŠ” ì›ì ìˆëŠ” ê²½ìš°
+                if(d==2 && arr[j].d==3 && x>arr[j].x && y==arr[j].y) {
+                    if(time>(x-arr[j].x)/2) {
+                        time = (x-arr[j].x)/2;
+                        num = j;
+                    }
+                }else if(d==3 && arr[j].d==2 && x<arr[j].x && y==arr[j].y) {
+                    if(time>(arr[j].x-x)/2) {
+                    	time = (arr[j].x-x)/2;
+                        num = j;
+                    }
+                }else if(d==0 && arr[j].d==1 && x==arr[j].x && y<arr[j].y) {
+                    if(time>(arr[j].y-y)/2) {
+                    	time = (arr[j].y-y)/2;
+                        num = j;
+                    }
+                }else if(d==1 && arr[j].d==0 && x==arr[j].x && y>arr[j].y) {
+                    if(time>(y-arr[j].y)/2) {
+                    	time = (y-arr[j].y)/2;
+                        num = j;
+                    }
+                     
+                //2. xì¢Œí‘œì˜ ì°¨ == yì¢Œí‘œì˜ ì°¨ ì´ë©´ì„œ 90ë„ ë°©í–¥ìœ¼ë¡œ ì˜¤ëŠ” ì›ìê°€ ìˆëŠ” ê²½ìš°
+                }else if(x-arr[j].x==y-arr[j].y && ((d==2 && arr[j].d==0)||(d==1 && arr[j].d==3))) {
+                    //ì¢Œí•˜ì— ìˆëŠ” ì›ìë‘ ë§Œë‚˜ëŠ” ê²½ìš°
+                    if(time>x-arr[j].x) {
+                    	time = x-arr[j].x;
+                        num = j;
+                    }
+                }else if(x-arr[j].x==arr[j].y-y &&((d==0&&arr[j].d==3)||(d==2&&arr[j].d==1))) {
+                    //ì¢Œìƒì— ìˆëŠ” ì›ìë‘ ë§Œë‚˜ëŠ” ê²½ìš°
+                    if(time >x-arr[j].x) {
+                    	time = x-arr[j].x;
+                        num = j;
+                    }
+                }else if(arr[j].x-x==y-arr[j].y &&((d==1&&arr[j].d==2)||(d==3&&arr[j].d==0))) {
+                    //ìš°í•˜ì— ìˆëŠ” ì›ìë‘ ë§Œë‚˜ëŠ” ê²½ìš°
+                    if(time>x-arr[j].x) {
+                    	time = arr[j].x-x;
+                        num = j;
+                    }
+                }else if(arr[j].x-x==arr[j].y-y &&((d==3&&arr[j].d==1)||(d==0&&arr[j].d==2))) {
+                    //ìš°ìƒì— ìˆëŠ” ì›ìë‘ ë§Œë‚˜ëŠ” ê²½ìš°
+                    if(time>x-arr[j].x) {
+                    	time = arr[j].x-x;
+                        num = j;
+                    }
+                }
+            }
+            //timeì´ 2001ë³´ë‹¤ ì‘ìœ¼ë©´ ë§Œë‚˜ëŠ” ì›ì ìˆëŠ” ê²ƒ >> ë§Œë‚˜ëŠ” ì›ì ì†Œë©¸ì²´í¬í•˜ê³  ì—ë„ˆì§€ ë”í•´ì¤Œ   
+            if(time<2001) {
+            	extinction[num] = true;//ì†Œë©¸
+                sum += (arr[i].k+arr[num].k);//ë°©ì¶œ ì—ë„ˆì§€ sumì— ë”í•´ì¤Œ
+            }
+        }
+         
+    }
+ 
 }

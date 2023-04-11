@@ -7,7 +7,7 @@ public class Main {
 		int T = sc.nextInt();
 		for(int tc=0; tc<T; tc++) {
 			int N = sc.nextInt();//동전 종류
-			//동점 금액 입력받기
+			//동전 금액 입력받기
 			int[] arr = new int[N];
 			for(int i=0; i<N; i++) {
 				arr[i] = sc.nextInt();

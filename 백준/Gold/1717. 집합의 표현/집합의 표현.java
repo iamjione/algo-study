@@ -1,49 +1,49 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 	
-	static int[] arr;
+	static int[] p;
 
-	public static void main(String[] args) {
-	
-		Scanner sc = new Scanner(System.in);
-		StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());//집합 n+1개
+		int m = Integer.parseInt(st.nextToken());//연산 횟수
 		
-		int N = sc.nextInt();
-		int M = sc.nextInt();
+		p = new int[n+2];
 		
-		arr = new int[N+1];
-		for(int i = 0; i<N+1; i++) {
-			arr[i] = i;
+		//make-set
+		for(int i=0; i<n+1; i++) {
+			p[i] = i;
 		}
-		
-		
-		for(int i=0; i<M; i++) {
-			int part = sc.nextInt();
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			if(part == 0) {
-				arr[find(b)] = find(a);
-			} else {
-				if(find(a) == find(b)) {
-					sb.append("YES").append("\n");
-				} else {
-					sb.append("NO").append("\n");
-				}
+
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<m; i++) {
+			st = new StringTokenizer(br.readLine());
+			int cmd = Integer.parseInt(st.nextToken());
+			int x = Integer.parseInt(st.nextToken());
+			int y = Integer.parseInt(st.nextToken());
+			
+			if(cmd==0) {
+				union(x,y);
+			}else {//cmd==1
+				if(findset(x)==findset(y)) sb.append("YES").append('\n');
+				else sb.append("NO").append('\n');
 			}
 		}
-		
 		System.out.println(sb);
-		
-		
-	} // main
-
-	private static int find(int x) {
-		if(x != arr[x]) 
-			arr[x] = find(arr[x]);
-		return arr[x];
 	}
-	
 
+	private static int findset(int x) {
+		if(x != p[x]) p[x] = findset(p[x]);
+		return p[x];
+	}
 
-}//class
+	private static void union(int x, int y) {
+		p[findset(y)]=findset(x);
+	}
+
+}

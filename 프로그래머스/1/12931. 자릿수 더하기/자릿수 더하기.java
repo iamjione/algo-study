@@ -5,15 +5,9 @@ public class Solution {
         
         int answer = 0;
         
-        int d = 100000000;
-        
         while(n>0){
-            if(n>=d){
-                answer += n/d;
-                n = n%d;
-            }
-            
-            d /= 10;
+            answer += n%10;
+            n /= 10;
         }
         
         return answer;

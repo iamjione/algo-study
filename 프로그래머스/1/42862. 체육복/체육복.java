@@ -11,7 +11,7 @@ class Solution {
             set.add(num);
         }
         
-        LinkedList<Integer> list = new LinkedList<>();
+        List<Integer> list = new ArrayList<>();
         
         for(int num : reserve){
             if(set.contains(num)){

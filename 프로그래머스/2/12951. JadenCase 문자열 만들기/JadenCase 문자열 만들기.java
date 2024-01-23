@@ -14,7 +14,6 @@ class Solution {
                 blank = false;
             } else{
                 c = (char) Character.toLowerCase(c);
-                blank = false;
             }
             
             answer += c;

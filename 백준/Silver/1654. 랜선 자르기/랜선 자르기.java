@@ -1,38 +1,37 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
 	public static void main(String[] args) {
-		//입력받기
 		Scanner sc = new Scanner(System.in);
-		int K = sc.nextInt();//주어진 랜선 개수
-		int N = sc.nextInt();//목표 랜선 개수
-		//랜선 길이 배열에 저장
+		int K = sc.nextInt(); // 가지고 있는 랜선 수 
+		int N = sc.nextInt(); // 필요한 랜선 수
+		
 		int[] arr = new int[K];
-		for(int i=0;i<K;i++) arr[i] = sc.nextInt();
+		long start = 1;
+		long end = 0;
+		for(int i=0; i<K; i++) {
+			arr[i] = sc.nextInt();
+			end = Math.max(end, arr[i]);
+		}
 		
-		//랜선길이 오름차순 정렬
-		Arrays.sort(arr);
-		
-		long min = 1;
-		long max = arr[K-1];
-		
-		while(min<=max) {
-			long mid = (min+max)/2;
+		long mid = 0, cnt = 0;
+		while(start<=end) {
+			mid = (start+end)/2; // 랜선 길이
+			cnt = 0; // mid로 잘랐을 때 랜선 개수
 			
-			int ans = 0;
-			for(int x:arr) {
-				ans += x/mid;
+			for(int n : arr) {
+				cnt += n/mid;
 			}
-			if(ans<N) {
-				max=mid-1;
-			}else if(ans>=N){
-				min = mid+1;
+			
+			if(cnt>=N) {
+				 start = mid+1;
+			}else {
+				end = mid-1;
 			}
 		}
-		System.out.println(max);
-	
-	
+		
+		System.out.println(end);
 	}
 
 }

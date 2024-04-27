@@ -9,11 +9,11 @@ public class Main {
 		int C = sc.nextInt();
 		int N = sc.nextInt();
 		
-		for(int i=1; i<=300/A; i++) {
-			for(int j=1; j<=300/B; j++) {
-				for(int k=1; k<=300/C; k++) {
-					if(A*i + B*j + C*k == N) {
-						System.out.println(1);
+		for(int i=N/C; i>=0; i--) {
+			for(int j=N/B; j>=0; j--) {
+				for(int k=N/A; k>=0; k--) {
+					if(C*i + B*j + A*k == N) {
+						System.out.println(1);						
 						return;
 					}
 				}

@@ -1,58 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class Main {
 	
-	static int N;
-	static int S;
-	static int cnt;
+	static int N, S;
 	static int[] arr;
-	static boolean[] visited;
+	static int cnt = 0;
 
-	public static void main(String[] args) throws IOException {
-
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		N = Integer.parseInt(st.nextToken());
-		S = Integer.parseInt(st.nextToken());
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		S = sc.nextInt();
 		
 		arr = new int[N];
-		visited = new boolean[N];
-		st = new StringTokenizer(br.readLine());
-		for(int i = 0; i<N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}//입력완료
+		for(int i=0; i<N; i++) {
+			arr[i] = sc.nextInt();
+		}
 		
-		//부분수열 구하기
-		cnt = 0;
-		subset(0);
-		if(S==0) cnt-=1;
-		sb.append(cnt);
+		for(int i=1; i<=N; i++) {
+			count(i, 0, 0, 0);			
+		}
 		
-		System.out.println(sb);
-		
-	}//main
+		System.out.println(cnt);
+	}
 
-	private static void subset(int idx) {
-		if(idx==N) {
-			int sum = 0;
-			for(int i= 0; i<N; i++) {
-				if(visited[i])
-					sum += arr[i];
-			}
-			if (sum == S) cnt++;
+	// total : 총 선택할 숫자 개수
+	// curr : 현재까지 선택한 숫자 개수
+    // start : 탐색 시작할 인덱스
+	// sum : 현재까지 선택한 숫자들의 합
+	private static void count(int total, int curr, int start, int sum) {
+		if(total==curr) {
+			if(sum==S) cnt++;
 			return;
 		}
 		
-		visited[idx] = true;
-		subset(idx+1);
-		visited[idx] = false;
-		subset(idx+1);
-		
-	}//subset
+		for(int i=start; i<N; i++) {
+			count(total, curr+1, i+1, sum+arr[i]);
+		}
+	}
 
-}//class
+}

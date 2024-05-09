@@ -16,26 +16,23 @@ public class Main {
 			arr[i] = sc.nextInt();
 		}
 		
-		for(int i=1; i<=N; i++) {
-			count(i, 0, 0, 0);			
-		}
+		recur(0,0);
 		
-		System.out.println(cnt);
+		// S가 0인 경우 공집합인 경우 빼줘야해서 cnt-1 출력
+		System.out.println(S==0? cnt-1 : cnt);
 	}
 
-	// total : 총 선택할 숫자 개수
-	// curr : 현재까지 선택한 숫자 개수
-    // start : 탐색 시작할 인덱스
-	// sum : 현재까지 선택한 숫자들의 합
-	private static void count(int total, int curr, int start, int sum) {
-		if(total==curr) {
+	private static void recur(int idx, int sum) {
+		if(idx==N) {
 			if(sum==S) cnt++;
+			
 			return;
 		}
 		
-		for(int i=start; i<N; i++) {
-			count(total, curr+1, i+1, sum+arr[i]);
-		}
+		recur(idx+1, sum+arr[idx]);
+		recur(idx+1, sum);
 	}
+
+	
 
 }

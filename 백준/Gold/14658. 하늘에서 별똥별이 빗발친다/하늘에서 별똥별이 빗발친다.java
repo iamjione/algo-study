@@ -6,40 +6,39 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();
-		int M = sc.nextInt();
-		int L = sc.nextInt();
-		int K = sc.nextInt();
+		int N = sc.nextInt(); // 가로
+		int M = sc.nextInt(); // 세로
+		int L = sc.nextInt(); // 트램펄린 길이
+		int K = sc.nextInt(); // 별똥별 수
 		
-		int[][] stars = new int[K][2];
-		Set<Integer> setX = new HashSet<>();
-		Set<Integer> setY = new HashSet<>();
-
-		for (int i=0; i<K; i++) {
+		int[][] stars = new int[K][2]; // 별똥별 떨어지는 위치
+		Set<Integer> row = new HashSet<>();
+		Set<Integer> col = new HashSet<>();
+		
+		for(int i=0; i<K; i++) {
 			stars[i][0] = sc.nextInt();
 			stars[i][1] = sc.nextInt();
-			setX.add(stars[i][0]);
-			setY.add(stars[i][1]);
+			
+			row.add(stars[i][0]);
+			col.add(stars[i][1]);
 		}
 		
-		int cnt; //트램펄린이 튕겨낸 별똥별 수
-		int max = 0; // cnt의 최대값
-		
-		// (x,y)에 트램펄린 설치해보기
-		for(int x: setX) {
-			for(int y : setY) {
+		int cnt; // 튕겨낸 별똥별 수
+		int max = 0; // 튕겨낸 별똥별 수의 최대값
+		for(int r : row) {
+			for(int c : col) {
 				cnt = 0;
-				// 범위에 들어오는 별똥별 개수 카운트
+				
+				// r,c를 시작점으로 트램펄린 설치했을 때 튕겨낼 수 있는 별똥별 수 카운트
 				for(int[] star : stars) {
-					if(star[0]>=x && star[0]<=x+L && star[1]>=y && star[1]<=y+L) cnt++;
+					if(r<=star[0] && r+L>=star[0] && c<=star[1] && c+L>=star[1]) cnt++;
 				}
-				//최대값 갱신
-				max = Math.max(max, cnt);			
+				
+				max = Math.max(max,  cnt);
 			}
 		}
 		
 		System.out.println(K-max);
-		
 	}
 
 }

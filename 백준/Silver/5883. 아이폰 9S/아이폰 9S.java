@@ -3,54 +3,46 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
-
-	static int N;
-	static int[] arr;
-	static int max = 0;
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt();
 		
-		arr = new int[N];
-		Set<Integer> set = new HashSet<>();
+		int N = sc.nextInt(); // 사람 수
+		int[] arr = new int[N];
+
+		Set<Integer> set = new HashSet<>(); // 사람들이 원하는 용량 저장할 집합
 		
 		for(int i=0; i<N; i++) {
 			arr[i] = sc.nextInt();
 			set.add(arr[i]);
 		}
 		
-		// 숫자 하나씩 제거하면서 가장 긴 연속된 수의 개수 찾기
+		int max = 0; // 답으로 출력할 최장 연속 구간 길이
+		int prev; // 앞사람이 원하는 용량
+		int len; // 현재까지 연속 구간 길이
 		for(int n : set) {
-			cntMax(n);
+			prev = -1;
+			len = 0;
+			
+			for(int i=0; i<N; i++) {
+				if(arr[i] == n) continue;
+				
+				if(arr[i]==prev) {
+					// 앞 사람이랑 용량 같으면 len증가
+					len++;
+				}else {
+					// 앞 사람이랑 용량 다르면 최장 연속 구간 업데이트하고
+					// prev는 현재 용량, len는 1로 초기화
+					max = Math.max(max, len);
+					prev = arr[i];
+					len = 1;
+				}
+				
+			}
+			max = Math.max(max, len);
 		}
 		
 		System.out.println(max);
 	}
-
-	private static void cntMax(int n) {
-		int l = 0;
-		int r = 0;
-		
-		while(arr[l]==n) {
-			l++;
-			r++;
-		}
-		
-		int cnt = 0;
-		while(r<N) {
-			if(arr[l]==arr[r]) {
-				cnt++;
-				r++;
-				
-				while(r<N && arr[r]==n) r++;
-			}else {
-				max = Math.max(max, cnt);
-				cnt = 0;
-				l=r;
-			}
-		}
-		max = Math.max(max, cnt);
-	}
-
+	
 }

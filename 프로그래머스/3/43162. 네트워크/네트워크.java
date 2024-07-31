@@ -11,20 +11,20 @@ class Solution {
         for(int i=0; i<n; i++){
             if(!visited[i]) answer++;
             
-            bfs(i, n);
+            dfs(i, n);
         }
         
         return answer;
     }
     
-    void bfs(int idx, int n){
+    void dfs(int idx, int n){
+        visited[idx] = true;
+        
         for(int i=0; i<n; i++){
-            if(computer[idx][i] == 1 && !visited[i]) {
-                visited[i] = true;
+            // 자기 자신이 아니고 연결되어 있으며 아직 방문하지 않은 곳이면 방문
+            if(idx != i && computer[idx][i] == 1 && !visited[i]) {
                 
-                if(idx==i) continue;
-                
-                bfs(i, n);
+                dfs(i, n);
             }
         }
     }

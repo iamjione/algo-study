@@ -1,30 +1,25 @@
 class Solution {
+
+    int answer = 0;
+    int[] number;
     
-    static int answer = 0;
-    static int[] numbers;
-    static int target;
-    
-    public int solution(int[] arr, int num) {
-        numbers = arr;
-        target = num;
+    public int solution(int[] numbers, int target) {
+        number = numbers;
         
-        dfs(0,-1);
+        recur(0, 0, target);
+        
         return answer;
     }
     
-    private static void dfs(int n, int idx){
-        
-        idx++;
-        
-        if(idx == numbers.length){
-            if(n == target){
-                answer++;
-            }
+    void recur(int idx, int num, int target){
+        if(idx == number.length){
+            if(num == target) answer++;
+            
             return;
         }
         
-        dfs(n+numbers[idx], idx);
-        dfs(n-numbers[idx], idx);
+        recur(idx+1, num+number[idx], target);
+        recur(idx+1, num-number[idx], target);
         
     }
 }

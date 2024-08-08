@@ -7,11 +7,9 @@ public class Main {
 		int A = sc.nextInt();
 		int B = sc.nextInt();
 		
-		int ans1 = -A-(int)Math.sqrt(A*A-B);
-		int ans2 = -A+(int)Math.sqrt(A*A-B);
-		
-		if(ans1==ans2) System.out.println(ans1);
-		else System.out.println(ans1+" "+ans2);		
+		for(int i=-2000; i<=2000; i++) {
+			if(i*i+2*A*i+B==0) System.out.print(i+" ");
+		}
 	}
 
 }

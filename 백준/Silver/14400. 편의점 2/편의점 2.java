@@ -4,31 +4,32 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);	
+		int n = sc.nextInt();
 		
-		int n = sc.nextInt(); // 주요 고객 수
-		
-		int[] arrX = new int[n]; // 고객들의 x좌표
-		int[] arrY = new int[n]; // 고객들의 y좌표
+		int[] x = new int[n];
+		int[] y = new int[n];
 		
 		for(int i=0; i<n; i++) {
-			arrX[i] = sc.nextInt();
-			arrY[i] = sc.nextInt();
+			x[i] = sc.nextInt();
+			y[i] = sc.nextInt();
 		}
 		
-		Arrays.sort(arrX);
-		Arrays.sort(arrY);
+		Arrays.sort(x);
+		Arrays.sort(y);
 		
-		int x = arrX[n/2]; // 편의점의 x좌표
-		int y = arrY[n/2]; // 편의점의 y좌표
+		// 거리 합 최소로 하는 위치
+		int midX = x[n/2];
+		int midY = y[n/2];
 		
-		long sum = 0; // 모든 고객과 편의점의 최소 거리 합
+		long sum = 0; // 최소 거리 합
+		
 		for(int i=0; i<n; i++) {
-			sum += Math.abs(arrX[i]-x)+Math.abs(arrY[i]-y);
+			sum += Math.abs(x[i]-midX) + Math.abs(y[i]-midY);
 		}
 		
 		System.out.println(sum);
-		
+			
 	}
 
 }

@@ -9,29 +9,21 @@ public class Main {
 		int n = sc.nextInt(); // 양+염소 마리수
 		int w = sc.nextInt(); // 양+염소가 먹은 사료 양
 		
-		int sheep = 0;
-		int goat = 0;
-		
-		boolean duplicate = false;
-		for(int i=1; i<=1000; i++) {
-			for(int j=1; j<=1000; j++) {
-				if(i+j==n && a*i+b*j==w) {
-					if(sheep!=0) {
-						duplicate = true;
-						break;
-					}else {
-						sheep = i;
-						goat = j;
-					}
-				}
+		int cnt = 0; // 정답 개수
+		int sheep = 0; // 양 마리 수
+		int goat = 0; // 염소 마리 수
+		for(int i=1; i<n; i++) { // i = 양
+			if(i*a + (n-i)*b == w) {
+				cnt++;
+				sheep = i;
+				goat = n-i;
 			}
-			if(duplicate) break;
 		}
 		
-		if(duplicate || sheep==0) { // 해가 중복되거나 없는 경우
-			System.out.println(-1);
+		if(cnt==1) {
+			System.out.println(sheep+" "+goat);
 		}else {
-			System.out.println(sheep+" "+goat);			
+			System.out.println(-1);
 		}
 	}
 

@@ -4,23 +4,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt(); // 사탕 개수
+		int N = sc.nextInt();
 		
-		int cnt = 0;
-		int a = 2;
-		int b,c;
+		int cnt = 0;// 경우의 수
 		
-		while(a<=N-4) {
-			b = 1;
-			c = N-a-b;
-			while(c-b>=2) {
-				b++;
-				c--;
-				cnt++;
+		for(int i=2; i<N; i+=2) {// 택희
+			for(int j=1; j<N; j++) { // 영훈
+				for(int k=j+2; k<N; k++) { // 남규
+					if(i+j+k == N) cnt++;
+				}
 			}
-			a+=2;
 		}
+		
 		System.out.println(cnt);
+		
 	}
 
 }

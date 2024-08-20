@@ -4,34 +4,36 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();//표의 크기
-		int M = sc.nextInt();//합을 구해야하는 횟수
+		int N = sc.nextInt();
+		int M = sc.nextInt();
 		
-		//숫자 입력받아서 행별 누적합으로 저장하기
-		int[][] arr = new int[N+1][N+1];
-		for(int i=1; i<N+1; i++) {
-			for(int j=1; j<N+1; j++) {
-				arr[i][j] = arr[i][j-1]+sc.nextInt();
+		// 누적합 배열 만들기
+		int[][] prefix_sum = new int[N+1][N+1];
+		// 행 누적합
+		for(int i=1; i<=N; i++) {
+			for(int j=1; j<=N; j++) {
+				prefix_sum[i][j] = sc.nextInt() + prefix_sum[i][j-1];
+			}
+		}
+		// 열 누적합
+		for(int i=1; i<=N; i++) {
+			for(int j=1; j<=N; j++) {
+				prefix_sum[i][j] += prefix_sum[i-1][j];
 			}
 		}
 		
-		StringBuilder sb = new StringBuilder();//답 저장할 스트링빌더
-		
-		//부분합 M번 구하기
+		// 구간합 출력
+		StringBuilder sb = new StringBuilder();
+		int x1, y1, x2, y2;
 		for(int i=0; i<M; i++) {
-			int x1 = sc.nextInt();
-			int y1 = sc.nextInt();
-			int x2 = sc.nextInt();
-			int y2 = sc.nextInt();
-			
-			int sum = 0;//답으로 출력할 부분합
-			for(int j=x1; j<=x2; j++) {
-				sum += arr[j][y2]-arr[j][y1-1];//j행의 y1~y2열까지의 합
-			}
-			sb.append(sum).append('\n');
+			x1 = sc.nextInt();
+			y1 = sc.nextInt();
+			x2 = sc.nextInt();
+			y2 = sc.nextInt();
+			sb.append(prefix_sum[x2][y2] - prefix_sum[x2][y1-1] - prefix_sum[x1-1][y2] + prefix_sum[x1-1][y1-1]).append('\n');
 		}
-
-		System.out.println(sb);
+		
+		System.out.println(sb.toString());
 	}
 
 }

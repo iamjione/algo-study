@@ -1,30 +1,67 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		StringBuilder sb = new StringBuilder();
-
-		Map<Integer, Integer> map = new HashMap<>();//키: 숫자, 값:카운트
 		
-		int N = sc.nextInt();//상근이가 갖고 있는 숫자 개수
+		int N = sc.nextInt();
+		
+		int[] cards = new int[N];
 		for(int i=0; i<N; i++) {
-			int num = sc.nextInt();
-			if(map.get(num)==null) map.put(num, 1);//키 없으면 값에 1 넣어줌
-			else map.put(num, map.get(num)+1);//키가 이미 존재하면 원래 값에 1더해줌	
+			cards[i] = sc.nextInt();
 		}
 		
-		int M = sc.nextInt();//상근이가 몇개 가지고 있는지 구해야할 숫자 카드 개수
+		Arrays.sort(cards);
+		
+		int M = sc.nextInt();
+		
+		int num, s, e, l, u, mid;
+		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<M; i++) {
-			int num = sc.nextInt();
-			int ans;//정답 변수
-			if(map.get(num)==null) ans=0;//null이면 0으로 바꿔줌
-			else ans = map.get(num);//null이 아니면 키가 num일때의 값을 답으로!
-			sb.append(ans + " ");
+			num = sc.nextInt();
+			
+			// lower bound 구하기
+			// num보다 크거나 같은 숫자의 가장 왼쪽 인덱스
+			s = 0;
+			e = N-1;
+			l = -1;
+			
+			while(s<=e) {
+				mid = (s+e)/2;
+				
+				if(cards[mid]>=num) {
+					l = mid;
+					e = mid - 1;
+				}else {
+					s = mid + 1;
+				}
+			}
+			if(l==-1) l = N;
+			
+			//upper bound 구하기
+			// num보다 큰 숫자의 가장 왼쪽 인덱스
+			s = 0;
+			e = N-1;
+			u = -1;
+			
+			while(s<=e) {
+				mid = (s+e)/2;
+				
+				if(cards[mid]>num) {
+					u = mid;
+					e = mid - 1;
+				}else {
+					s = mid + 1;
+				}
+			}
+			if(u==-1) u = N;
+			
+			sb.append(u-l+" ");
 		}
-		System.out.println(sb);
+		
+		System.out.println(sb.toString());
 	}
+
 }

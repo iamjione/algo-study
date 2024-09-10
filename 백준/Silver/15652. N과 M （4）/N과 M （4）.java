@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
 	
 	static int N, M;
-	static int[] answer;
+	static int[] ans;
 	static StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) {
@@ -12,27 +12,30 @@ public class Main {
 		N = sc.nextInt();
 		M = sc.nextInt();
 		
-		answer = new int[M];
+		ans = new int[M];
 		
-		recur(1, 0);
+		recur(1,0);
 		
 		System.out.println(sb.toString());
 	}
 
-	private static void recur(int start, int idx) {
+	private static void recur(int curr, int idx) {
 		if(idx == M) {
-			for(int n : answer) {
+			for(int n : ans) {
 				sb.append(n+" ");
 			}
 			sb.append('\n');
-			
 			return;
 		}
 		
-		for(int i=start; i<=N; i++) {
-			answer[idx] = i;
-			recur(i, idx+1);
-		}
+		if(curr > N) return;
+		
+		// curr 선택하기
+		ans[idx] = curr;
+		recur(curr, idx+1);
+		
+		// curr 선택 안하기
+		recur(curr+1, idx);
 	}
 
 }

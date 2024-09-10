@@ -1,38 +1,45 @@
 import java.util.Scanner;
 
 public class Main {
-
+	
 	static int N, M;
-	static int[] result;
-	static StringBuilder sb;
+	static boolean[] visited;
+	static int[] ans;
+	static StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		N = sc.nextInt();
 		M = sc.nextInt();
 		
-		result = new int[M];
-		sb = new StringBuilder();
+		visited = new boolean[N+1];
+		ans = new int[M];
 		
-		combination(1,0);
-		System.out.println(sb);
+		recur(1, 0);
+		
+		System.out.println(sb.toString());
 	}
 
-	private static void combination(int num, int idx) {
-		if(idx==M) {//M개 다 뽑은 경우
-			for(int x:result) {
-				sb.append(x+" ");
+	private static void recur(int curr, int idx) {
+		if(idx == M) {
+			for(int n : ans) {
+				sb.append(n+" ");
 			}
 			sb.append('\n');
+			
 			return;
 		}
 		
-		if(num==N+1) return;
+		if(curr > N) return;
 		
-		result[idx] = num;
-		combination(num+1, idx+1);//조합에 num 포함 && 다음 숫자 판단하러 고고
-		combination(num+1, idx);//조합에 num 포함 안함 && 다음 숫자 판단하러 고고
+		// curr 고르기
+		ans[idx] = curr;
+		visited[curr] = true;
+		recur(curr+1, idx+1);
 		
+		// curr 안고르기
+		visited[curr] = false;
+		recur(curr+1, idx);
 	}
 
 }

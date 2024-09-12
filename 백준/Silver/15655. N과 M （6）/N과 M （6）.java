@@ -5,7 +5,7 @@ public class Main {
 	
 	static int N, M;
 	static int[] arr;
-	static int[] answer;
+	static int[] ans;
 	static StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) {
@@ -19,27 +19,32 @@ public class Main {
 		}
 		Arrays.sort(arr);
 		
-		answer = new int[M];
+		ans = new int[M];
 		
 		recur(0,0);
 		
 		System.out.println(sb.toString());
 	}
 
-	private static void recur(int start, int idx) {
-		if(idx==M) {
-			for(int i=0; i<M; i++) {
-				sb.append(answer[i]+" ");
+	private static void recur(int curr, int idx) {
+		if(idx == M) {
+			for(int n : ans) {
+				sb.append(n+" ");
 			}
 			sb.append('\n');
 			return;
 		}
 		
-		for(int i=start; i<N; i++) {
-			answer[idx] = arr[i];
-			
-			recur(i+1, idx+1);
+		if(curr >= N) {
+			return;
 		}
+		
+		// curr번째 원소 고르기
+		ans[idx] = arr[curr];
+		recur(curr+1, idx+1);
+		
+		// curr번째 원소 안고르기
+		recur(curr+1, idx);
 	}
 
 }

@@ -5,9 +5,9 @@ public class Main {
 	
 	static int N, M;
 	static int[] arr;
-	static int[] answer;
+	static int[] ans;
 	static StringBuilder sb = new StringBuilder();
-	
+    
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		N = sc.nextInt();
@@ -17,27 +17,27 @@ public class Main {
 		for(int i=0; i<N; i++) {
 			arr[i] = sc.nextInt();
 		}
+		
 		Arrays.sort(arr);
 		
-		answer = new int[M];
+		ans = new int[M];
 		
 		recur(0);
 		
 		System.out.println(sb.toString());
 	}
-
+	
 	private static void recur(int idx) {
 		if(idx==M) {
-			for(int i=0; i<M; i++) {
-				sb.append(answer[i]+" ");
+			for(int n : ans) {
+				sb.append(n+" ");
 			}
 			sb.append('\n');
 			return;
 		}
 		
 		for(int i=0; i<N; i++) {
-			answer[idx] = arr[i];
-			
+			ans[idx] = arr[i];
 			recur(idx+1);
 		}
 	}

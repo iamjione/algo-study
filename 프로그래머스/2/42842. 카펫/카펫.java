@@ -1,16 +1,24 @@
 class Solution {
     public int[] solution(int brown, int yellow) {
-        // 전체 카펫의 가로 길이 x, 세로 길이 y
-        // 노란색 부분의 가로 길이 x-2, 세로 길이 y-2
-        // 2x^2 - (4+brown)x + 2(brown+yellow) = 0
-        int a = 2;
-        int b = -(4+brown);
-        int c = 2*(brown+yellow);
+        int[] answer = new int[2];
         
-        // 근의 공식 이용해서 가로 x값 계산 후 세로 y 값 계산
-        int x = (-b+(int)Math.sqrt(b*b-4*a*c))/(2*a);
-        int y = (brown+yellow)/x;
+        int x, y; // 노란색의 가로, 세로 길이
+        for(int i=1; i<=yellow; i++){
+            if(yellow%i != 0) continue;
+            
+            x = yellow/i;
+            y = i;
+            
+            if(x<y) break;
+            
+            if(2*(x+2) + 2*y == brown){
+                answer[0] = x+2;
+                answer[1] = y+2;
+                
+                break;
+            }
+        }
         
-        return new int[] {x,y};
+        return answer;
     }
 }

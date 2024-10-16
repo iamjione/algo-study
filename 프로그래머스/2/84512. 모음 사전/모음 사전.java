@@ -1,29 +1,31 @@
 class Solution {
-    int answer = 0;
-    char[] vowel = {'A', 'E', 'I', 'O', 'U'};
-    boolean done = false;
+    
+    static char[] vowel = {'A','E','I','O','U'};
+    static int cnt = 0;
+    static int answer = 0;
     
     public int solution(String word) {
+
         makeWord("", word);
+        
         return answer;
     }
     
-    private void makeWord(String curr, String word){
-        if(done) return;
+    void makeWord(String curr, String word){
+        if(answer != 0) return;
         
-        if(curr.equals(word)){
-            done = true;
+        if(curr.equals(word)) {
+            answer = cnt;
             return;
         }
         
-        answer++;
-        
-        if(curr.length() == 5) return;
-        
-        
-        for(int i=0; i<5; i++){
-            makeWord(curr+vowel[i], word);
+        if(curr.length()>=5){
+            return;
         }
         
+        for(int i=0; i<5; i++){
+            cnt++;
+            makeWord(curr+vowel[i], word);
+        }
     }
 }

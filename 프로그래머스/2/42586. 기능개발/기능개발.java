@@ -1,32 +1,33 @@
 import java.util.*;
-import java.lang.Math;
 
 class Solution {
-    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
-        ArrayList<Integer> answer = new ArrayList<>();
+    public List<Integer> solution(int[] progresses, int[] speeds) {
+        int len = progresses.length;
         
-        Queue<Integer> q = new ArrayDeque<>();
-        for(int progress : progresses){
-            q.offer(progress);
+        Queue<Integer> q = new ArrayDeque<>(); // 기능 완료까지 걸리는 기간 저장할 큐
+        
+        int days;
+        for(int i=0; i<len; i++){
+            if((100-progresses[i])%speeds[i] > 0){
+                days = (100-progresses[i])/speeds[i]+1;
+            }else{
+                days = (100-progresses[i])/speeds[i];
+            }
+            
+            q.add(days);
         }
         
-        int day = 0;// q 가장 앞에 있는 기능의 배포 가능 일자
-        int idx = 0;
-        int cnt; // 배포할 수 있는 기능의 개수
+        List<Integer> answer = new LinkedList<>();
         
+        int curr;
+        int cnt;
         while(!q.isEmpty()){
-            cnt = 0;
+            curr = q.poll();
+            cnt = 1;
             
-            day = (int)Math.ceil((double)(100 - q.peek()) / speeds[idx]);
-            
-            while(!q.isEmpty()){
-                if(q.peek()+speeds[idx]*day>=100){
-                    q.poll();
-                    idx++;
-                    cnt++;
-                }else{
-                    break;
-                }
+            while(!q.isEmpty() && q.peek()<=curr){
+                q.poll();
+                cnt++;
             }
             
             answer.add(cnt);

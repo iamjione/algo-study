@@ -3,47 +3,53 @@ import java.util.Stack;
 
 public class Main {
 
+	static String s, e;
+	static Stack<Character> stack = new Stack();
+	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		String s = sc.next(); // 문자열
-		String e = sc.next(); // 폭발 문자열
-
-		Stack<Character> stack = new Stack<>();
-		boolean equal; // 폭발 문자열 여부
-		int idx; // 폭발 문자열 인덱스
+		s = sc.next();
+		e = sc.next();
 		
 		for(int i=0; i<s.length(); i++) {
 			stack.push(s.charAt(i));
 			
-			if(stack.size()>=e.length()) {
-				equal = true;
-				idx = 0;
-				
-				// 스택에 폭발 문자열이 있는지 폭발 문자열의 글자수 만큼 검사
-				for(int j=stack.size() - e.length(); j<stack.size(); j++) {
-					if(stack.get(j) != e.charAt(idx++)) {
-						equal = false;
-						break;
-					}
-				}
-				
-				// 폭발 문자열있으면 스택에서 제거
-				if(equal) {
-					for(int j=0; j<e.length(); j++) stack.pop();
-				}
-			}
-			
+			// 스택에 들어있는 문자 수가 폭발 문자열보다 크거나 같고 폭발 문자열이 있으면 폭발!
+			if(stack.size() >= e.length() && findE()) explode();
 		}
-		
-		if(stack.size()>0) {
-			StringBuilder sb = new StringBuilder();
-			for(Character c : stack) {
-				sb.append(c);
-			}
-			System.out.println(sb.toString());
-		}else {
+
+		// 출력
+		if(stack.isEmpty()) {
 			System.out.println("FRULA");
 		}
+		else {
+			StringBuilder sb = new StringBuilder();
+			
+			while(!stack.isEmpty()) {
+				sb.append(stack.pop());
+			}
+			
+			System.out.println(sb.reverse());
+		}
+		
+	}
+	
+	// 폭발 문자열 찾기
+	private static boolean findE() {
+		int idx = e.length()-1;
+		
+		// 스택 위에서 부터 폭발 문자열 글자수 만큼 확인하기
+		for(int i=stack.size()-1; i >= stack.size()-e.length(); i--) {
+			if(stack.get(i) == e.charAt(idx)) idx--;
+			else return false;
+		}
+		
+		return true;
+	}
+	
+	// 문자열 폭발
+	private static void explode() {
+		for(int i=0; i<e.length(); i++) stack.pop();
 	}
 
 }

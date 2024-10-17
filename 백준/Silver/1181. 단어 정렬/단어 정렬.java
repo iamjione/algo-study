@@ -1,45 +1,37 @@
-import java.util.Scanner;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class Main {
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		
-        // 단어 개수 입력받기
-        Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
-        
-        //단어 배열에 넣기
-		String[] arr = new String[N];
-
-		for (int i = 0; i < N; i++) {
-			String str = sc.next();
-			arr[i] = str;
+		
+		LinkedList<String>[] list = new LinkedList[51];
+		for(int i=0; i<51; i++) {
+			list[i] = new LinkedList<>();
 		}
-
-		// 정렬
-		Arrays.sort(arr, new Comparator<String>() {
-
-			@Override
-			public int compare(String o1, String o2) {
-				if (o1.length() == o2.length()) {
-					return o1.compareTo(o2);
-				} else {
-					return o1.length() - o2.length();
-				}
-			}
-		});
-
-		// 중복 빼고 출력
-		for (int i = 0; i < N-1; i++) {
-			if (arr[i].equals(arr[i+1])) {
-				continue;
-			}
-			System.out.println(arr[i]);
+		
+		String word;
+		for(int i=0; i<N; i++) {
+			word = sc.next();
+			list[word.length()].add(word);
 		}
-		System.out.println(arr[N-1]);
-
+		
+		for(int i=1; i<51; i++) {
+			Collections.sort(list[i]);
+		}
+		
+		String prev = "";
+		for(int i=1; i<51; i++) {
+			if(list[i].isEmpty()) continue;
+			
+			for(String s : list[i]) {
+				if(s.equals(prev)) continue;
+				System.out.println(s);
+				prev = s;
+			}
+		}
 	}
 
 }

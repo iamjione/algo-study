@@ -11,10 +11,10 @@ class Solution {
         }
         
         // 우선 순위 큐가 빌때까지 현재 실행 가능한 작업 중 가장 빨리 끝나는 작업 실행하기
-        int curr = 0; // 현재 시간
-        int sum = 0; // 모든 작업을 끝내는데 걸린 시간
-        int min = 2000; // 아직 요청이 안 온 작업 중 제일 빠른 요청 시간
-        List<Job> tmp = new LinkedList<>(); // 소요 시간은 짧지만 아직 요청 시간이 안된 작업들의 임시 저장소
+        int curr = 0;
+        int sum = 0;
+        int min = 2000;
+        List<Job> tmp = new LinkedList<>();
         
         while(!pq.isEmpty()){
             Job job = pq.poll();

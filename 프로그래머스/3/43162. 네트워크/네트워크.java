@@ -1,31 +1,31 @@
 class Solution {
     
-    int[][] computer;
     boolean[] visited;
-    int answer = 0;
     
     public int solution(int n, int[][] computers) {
-        computer = computers;
+        int answer = 0;
+        
         visited = new boolean[n];
         
         for(int i=0; i<n; i++){
-            if(!visited[i]) answer++;
-            
-            dfs(i, n);
+            if(!visited[i]) {
+                answer++;
+                visited[i] = true;
+                DFS(computers, i);
+            }
         }
         
         return answer;
     }
     
-    void dfs(int idx, int n){
-        visited[idx] = true;
-        
-        for(int i=0; i<n; i++){
-            // 자기 자신이 아니고 연결되어 있으며 아직 방문하지 않은 곳이면 방문
-            if(idx != i && computer[idx][i] == 1 && !visited[i]) {
-                
-                dfs(i, n);
-            }
+    // idx번째 컴퓨터랑 연결된 다른 컴퓨터 방문 처리 하기
+    void DFS(int[][] computers, int idx){
+        for(int i=0; i<computers.length; i++){
+            // 나 자신이거나 연결 안된 컴퓨터거나 이미 방문한 컴퓨터면 넘어가기
+            if(i == idx || computers[idx][i] == 0 || visited[i]) continue;
+            
+            visited[i] = true;
+            DFS(computers, i);
         }
     }
 }

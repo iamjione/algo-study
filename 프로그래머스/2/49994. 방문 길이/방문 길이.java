@@ -1,44 +1,48 @@
 class Solution {
-    
-    int answer = 0;
-    Direction[][] grid = new Direction[11][11];
-    
     public int solution(String dirs) {
+        int answer = 0;
+
+        boolean[][] visited = new boolean[121][121];
         
-        char[] d = dirs.toCharArray();
+        int[] dr = {-1,1,0,0};
+        int[] dc = {0,0,-1,1};
         
-        // 시작점 (5,5)
-        int r = 5;
-        int c = 5;
-        grid[r][c] = new Direction();
+        int r = 5, c = 5;
         
-        int nr, nc;
-        for(char direction : d){
-            nr = r;
-            nc = c;
-            switch (direction){
+        char dir;
+        int idx = 0;
+        int nr, nc, curr, next;
+        for(int i=0; i<dirs.length(); i++){
+            dir = dirs.charAt(i);
+            switch(dir){
                 case 'U':
-                    nr++;
+                    idx = 0;
                     break;
                 case 'D':
-                    nr--;
-                    break;
-                case 'R':
-                    nc ++;
+                    idx = 1;
                     break;
                 case 'L':
-                    nc--;
+                    idx = 2;
+                    break;
+                case 'R':
+                    idx = 3;
+                    break;
             }
             
-            if(nr<0 || nr>10 || nc<0 || nc>10) continue; // 배열 범위 벗어난 경우
+            nr = r + dr[idx];
+            nc = c + dc[idx];
             
-            // 배열이 null이면 초기화해주기
-            if (grid[nr][nc] == null) {
-                grid[nr][nc] = new Direction();
+            if(nr < 0 || nr >= 11 || nc < 0 || nc >= 11) continue;
+            
+            curr = 11*r+c;
+            next = 11*nr+nc;
+            
+            if (!visited[curr][next]) {
+                answer++;
+                
+                visited[curr][next] = true;
+                visited[next][curr] = true;
             }
-            
-            // grid[r][c]에서 grid[nr][nc]로 direction 방향으로 이동하는 거 기록하기
-            updateDirection(r, c, nr, nc, direction);
             
             r = nr;
             c = nc;
@@ -46,45 +50,4 @@ class Solution {
         
         return answer;
     }
-    
-    private void updateDirection(int r, int c, int nr, int nc, char direction) {
-        switch (direction) {
-            case 'U':
-                if(!grid[r][c].U){
-                    grid[r][c].U = true;
-                    grid[nr][nc].D = true;
-                    answer ++;
-                }
-                break;
-            case 'D':
-                if(!grid[r][c].D){
-                    grid[r][c].D = true;
-                    grid[nr][nc].U = true;
-                    answer ++;
-                }
-                break;
-            case 'R':
-                if(!grid[r][c].R){
-                    grid[r][c].R = true;
-                    grid[nr][nc].L = true;
-                    answer ++;
-                }
-                break;
-            case 'L':
-                if(!grid[r][c].L){
-                    grid[r][c].L = true;
-                    grid[nr][nc].R = true;
-                    answer ++;
-                }
-                break;
-        }
-    }
-    
-    class Direction {
-        boolean U;
-        boolean D;
-        boolean R;
-        boolean L;
-    }
-    
 }
